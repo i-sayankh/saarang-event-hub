@@ -5,7 +5,7 @@ and admins can create events.
 
 ## Live Demo
 - Frontend: https://saarang-event-hub.vercel.app
-- Backend:  https://saarang-api.onrender.com
+- Backend:  https://saarang-event-hub-5c2b.onrender.com
 
 ## Tech Stack
 - **Backend:** Node.js, Express, MongoDB Atlas, JWT
