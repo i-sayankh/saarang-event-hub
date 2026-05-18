@@ -16,7 +16,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/signup', form)
+      const res = await axios.post('https://saarang-event-hub-5c2b.onrender.com/api/auth/signup', form)
       login(res.data.token, res.data.user)
       navigate('/')
     } catch (err) {

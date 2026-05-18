@@ -33,7 +33,7 @@ PORT=5000
 ```
 ```bash
 node server.js
-# Server runs on http://localhost:5000
+# Server runs on https://saarang-event-hub-5c2b.onrender.com
 ```
 
 ### Seed sample events

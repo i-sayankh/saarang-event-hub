@@ -15,7 +15,7 @@ const EventDetail = () => {
 
   useEffect(() => {
     // fetch event details
-    axios.get(`http://localhost:5000/api/events/${id}`)
+    axios.get(`https://saarang-event-hub-5c2b.onrender.com/api/events/${id}`)
       .then(res => {
         setEvent(res.data)
         setLoading(false)
@@ -24,7 +24,7 @@ const EventDetail = () => {
 
     // if logged in, check if already registered
     if (token) {
-      axios.get('http://localhost:5000/api/events/my/registrations', {
+      axios.get('https://saarang-event-hub-5c2b.onrender.com/api/events/my/registrations', {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => {
@@ -41,7 +41,7 @@ const EventDetail = () => {
       return
     }
     try {
-      await axios.post(`http://localhost:5000/api/events/${id}/register`, {}, {
+      await axios.post(`https://saarang-event-hub-5c2b.onrender.com/api/events/${id}/register`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setRegistered(true)
@@ -53,7 +53,7 @@ const EventDetail = () => {
 
   const handleUnregister = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/events/${id}/register`, {
+      await axios.delete(`https://saarang-event-hub-5c2b.onrender.com/api/events/${id}/register`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setRegistered(false)

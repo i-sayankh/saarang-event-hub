@@ -14,7 +14,7 @@ const MyRegistrations = () => {
       navigate('/login')
       return
     }
-    axios.get('http://localhost:5000/api/events/my/registrations', {
+    axios.get('https://saarang-event-hub-5c2b.onrender.com/api/events/my/registrations', {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => {
@@ -29,7 +29,7 @@ const MyRegistrations = () => {
 
   const handleUnregister = async (eventId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/events/${eventId}/register`, {
+      await axios.delete(`https://saarang-event-hub-5c2b.onrender.com/api/events/${eventId}/register`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setRegistrations(registrations.filter(reg => reg.event._id !== eventId))

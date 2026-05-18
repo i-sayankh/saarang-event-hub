@@ -8,7 +8,7 @@ const EventList = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/events')
+    axios.get('https://saarang-event-hub-5c2b.onrender.com/api/events')
       .then(res => {
         setEvents(res.data)
         setLoading(false)

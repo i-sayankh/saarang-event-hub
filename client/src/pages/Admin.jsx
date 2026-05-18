@@ -23,7 +23,7 @@ const AdminAddEvent = () => {
       return
     }
     try {
-      await axios.post('http://localhost:5000/api/events', form, {
+      await axios.post('https://saarang-event-hub-5c2b.onrender.com/api/events', form, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setMessage('Event created successfully!')
