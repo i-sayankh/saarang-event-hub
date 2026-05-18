@@ -4,7 +4,7 @@ const cors = require('cors')
 require('dotenv').config()
 
 const app = express()
-app.use(cors({ origin: 'https://saarang-event-hub.vercel.app/' }))
+app.use(cors({ origin: 'https://saarang-event-hub.vercel.app' }))
 app.use(express.json())
 app.use('/api/auth',require('./routes/auth'))
 app.use('/api/events',require('./routes/events'))
