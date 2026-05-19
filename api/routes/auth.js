@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const authMiddleware = require('../middleware/authMiddleware');
 const adminMiddleware = require('../middleware/adminMiddleware')
+const superAdminMiddleware = require('../middleware/superAdminMiddleware')
 
 // Register a new user
 router.post('/signup', async (req, res) => {
@@ -56,7 +57,7 @@ router.post('/logout',authMiddleware, (req, res) => {
     res.json({ message: 'Logged out successfully' });
 });
 
-router.patch('/make-admin/:userId', adminMiddleware, async (req, res) => {
+router.patch('/make-admin/:userId', superAdminMiddleware, async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
       req.params.userId,
@@ -71,10 +72,24 @@ router.patch('/make-admin/:userId', adminMiddleware, async (req, res) => {
 })
 
 // GET all users — admin only
-router.get('/users', adminMiddleware, async (req, res) => {
+router.get('/users', superAdminMiddleware, async (req, res) => {
   try {
     const users = await User.find().select('-password')
     res.json(users)
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
+
+router.patch('/remove-admin/:userId', superAdminMiddleware, async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.userId,
+      { role: 'user' },
+      { new: true }
+    )
+    if (!user) return res.status(404).json({ message: 'User not found' })
+    res.json({ message: `${user.username} is now a regular user` })
   } catch (err) {
     res.status(500).json({ message: err.message })
   }

@@ -16,12 +16,8 @@ const Navbar = () => {
       {user ? (
         <>
           <Link to="/my-registrations">My Registrations</Link>
-          {user.role === 'admin' && (
-            <>
-              <Link to="/admin/add-event">+ Add Event</Link>
-              <Link to="/manage-admins">Manage Admins</Link>
-            </>
-          )}
+          {user?.role === 'super_admin' && (<Link to="/manage-admins">Manage Admins</Link>)}
+          {(user?.role === 'admin' || user?.role === 'super_admin') && (<Link to="/admin/add-event">+ Add Event</Link>)}
           <span>Hi, {user.username}</span>
           <button onClick={logout}>Logout</button>
         </>

@@ -11,7 +11,7 @@ const ManageAdmins = () => {
   const [message, setMessage] = useState('')
 
   useEffect(() => {
-    if (!token || user?.role !== 'admin') {
+    if (!token || user?.role !== 'super_admin') {
       navigate('/')
       return
     }
@@ -42,6 +42,20 @@ const ManageAdmins = () => {
     }
   }
 
+  const removeAdmin = async (userId) => {
+    try {
+      const res = await axios.patch(
+        `https://saarang-event-hub-5c2b.onrender.com/api/auth/remove-admin/${userId}`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      setMessage(res.data.message)
+      setUsers(users.map(u => u._id === userId ? { ...u, role: 'user' } : u))
+    } catch (err) {
+      setMessage(err.response?.data?.message || 'Failed to remove admin')
+    }
+  }
+
   if (loading) return <p>Loading...</p>
 
   return (
@@ -64,20 +78,23 @@ const ManageAdmins = () => {
               <td style={{ padding: '0.5rem' }}>{u.email}</td>
               <td style={{ padding: '0.5rem' }}>{u.role}</td>
               <td style={{ padding: '0.5rem' }}>
-                {u.role !== 'admin' && (
+                {u._id === user.id ? (
+                  <span style={{ color: 'blue' }}>You (Superadmin)</span>
+                ) : u.role === 'admin' ? (
+                  <button
+                    onClick={() => removeAdmin(u._id)}
+                    style={{ background: 'red', color: 'white', padding: '0.25rem 0.75rem' }}
+                  >
+                    Remove Admin
+                  </button>
+                ) : u.role === 'user' ? (
                   <button
                     onClick={() => makeAdmin(u._id)}
                     style={{ background: 'green', color: 'white', padding: '0.25rem 0.75rem' }}
                   >
                     Make Admin
                   </button>
-                )}
-                {u.role === 'admin' && u._id !== user.id && (
-                  <span style={{ color: 'gray' }}>Admin</span>
-                )}
-                {u._id === user.id && (
-                  <span style={{ color: 'blue' }}>You</span>
-                )}
+                ) : null}
               </td>
             </tr>
           ))}
