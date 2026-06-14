@@ -20,6 +20,16 @@ const isTokenValid = (token) => {
   return payload.exp * 1000 > Date.now()
 }
 
+// Safely parse the persisted user, tolerating a corrupted entry.
+const parseStoredUser = () => {
+  try {
+    const stored = localStorage.getItem('user')
+    return stored ? JSON.parse(stored) : null
+  } catch {
+    return null
+  }
+}
+
 // Read persisted auth, discarding it if the token is missing or expired.
 const loadAuth = () => {
   const token = localStorage.getItem('token')
@@ -28,8 +38,7 @@ const loadAuth = () => {
     localStorage.removeItem('user')
     return { token: null, user: null }
   }
-  const stored = localStorage.getItem('user')
-  return { token, user: stored ? JSON.parse(stored) : null }
+  return { token, user: parseStoredUser() }
 }
 
 export const AuthProvider = ({ children }) => {
